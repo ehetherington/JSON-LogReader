@@ -44,20 +44,20 @@ Using maven, the pom.xml takes care of the dependancies, so:
 $ mvn package
 ....
 $ ls ls -l target/verify_log-1.0-SNAPSHOT*
--rw-rw-r--. 1 ehetherington ehetherington   17541 Sep  3 09:04 target/verify_log-1.0-SNAPSHOT.jar
--rw-rw-r--. 1 ehetherington ehetherington 2128141 Sep  3 09:04 target/verify_log-1.0-SNAPSHOT-jar-with-dependencies.jar
+-rw-rw-r--. 1 ehetherington ehetherington   17541 Sep  3 09:04 target/JSON-LogReader-0.5.0-SNAPSHOT.jar
+-rw-rw-r--. 1 ehetherington ehetherington 2128141 Sep  3 09:04 target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar
 ```
 ## Running
 The `*with-dependencies.jar` contains all dependencies, so assuming there is a
 sample-log.json file, the following command will read a log file and print it
 with the default format.
 ```
-$ java -cp target/verify_log-1.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader sample-log.json
+$ java -cp target/JSON-LogReader-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader sample-log.json
 ```
 
 The program has a help option, so:
 ```
-$ java -cp target/verify_log-1.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader --help
+$ java -cp target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader --help
 usage: Usage: LogReader [OPTION]... [FILE]
 Read and convert JSON logger FILE to the standard output
 
