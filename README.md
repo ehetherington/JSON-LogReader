@@ -24,7 +24,7 @@ Formats supported are:
 A program to read those JSON log files and print them in some other formats provided by
 libtinylogger is provided.
 
-## Dependancies
+## Dependencies
 
 Package                           | version used
 ----------------------------------|-------------
@@ -53,7 +53,7 @@ The `*with-dependencies.jar` contains all dependencies, so assuming there is a
 sample-log.json file, the following command will read a log file and print it
 with the default format.
 ```
-$ java -cp target/JSON-LogReader-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader sample-log.json
+$ java -cp target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.JsonLogReader sample-log.json
 ```
 
 The program has a help option, so:
