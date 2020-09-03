@@ -25,6 +25,7 @@ A program to read those JSON log files and print them in some other formats prov
 libtinylogger is provided.
 
 ## Dependancies
+
 Package                           | version used
 ----------------------------------|-------------
 FasterXML jackson-core            | 2.9.4
