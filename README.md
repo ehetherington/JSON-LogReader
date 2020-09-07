@@ -28,10 +28,10 @@ libtinylogger is provided.
 
 Package                           | version used
 ----------------------------------|-------------
-FasterXML jackson-core            | 2.9.4
-FasterXML jackson-databind        | 2.9.4
-FasterXML jackson-annotations     | 2.9.4
-FasterXML jackson-datatype-jsr310 | 2.10.0
+FasterXML jackson-core            | 2.11.2
+FasterXML jackson-databind        | 2.11.2
+FasterXML jackson-annotations     | 2.11.2
+FasterXML jackson-datatype-jsr310 | 2.11.2
 Apache    commons-io              | 2.6
 Apache    commons-cli             | 1.4
 
