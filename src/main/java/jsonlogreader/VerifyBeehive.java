@@ -80,16 +80,15 @@ import jsonlogreader.model.SDLevelJsonSerializer;
 public class VerifyBeehive {
 	private static final boolean DEBUG = false;
 	
-	private static final int N_WORKERS		= 250;     /**< number of worker threads to run */
-	private static final int N_LOOPS		= 1000;    /**< number of loops for each thread to run */
-	private static final int SLEEP_MICROS	= 500;     /**< maximum sleep duration for each loop */
+	private static final int N_WORKERS		= 250;
+	private static final int N_LOOPS		= 1000;
 
 	/**
 	 * @param args the command line arguments
 	 * @throws java.io.IOException when something bad happens
 	 */
 	public static void main(String[] args) throws IOException {
-		if (DEBUG)  args = new String[] {"beehivexxx.json"};
+		if (DEBUG)  args = new String[] {"beehive.json"};
 		if (args.length != 1) {
 			System.err.println("Must supply JSON log filename");
 			System.exit(1);
@@ -97,6 +96,7 @@ public class VerifyBeehive {
 		File file = new File(args[0]);
 		if (!file .exists()) {
 			System.err.format("file %s does not exist%n", args[0]);
+			System.exit(1);
 		}
 		
 		SimpleModule sdLevelModule = new SimpleModule("SDLevelModule");
