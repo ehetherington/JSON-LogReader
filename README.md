@@ -41,12 +41,18 @@ Apache    commons-cli             | 1.4
 
 ## Building
 Using maven, the pom.xml takes care of the dependancies, so:
+
 ```
 $ mvn package
-...
+```
 $ ls -l target/JSON-LogReader-0.5.0-SNAPSHOT*
 -rw-rw-r--. 1 ehetherington ehetherington   17541 Sep  3 09:04 target/JSON-LogReader-0.5.0-SNAPSHOT.jar
 -rw-rw-r--. 1 ehetherington ehetherington 2128141 Sep  3 09:04 target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar
+```
+
+For javadoc:
+```
+$ mvn javadoc:jar
 ```
 ## Running
 The `*with-dependencies.jar` contains all dependencies, so assuming there is a
