@@ -23,10 +23,24 @@
  */
 package jsonlogreader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.Instant;
+import java.util.Date;
+
 /**
- * Equivalent to Linux/C struct other.
+ * Equivalent to Linux/C <code>struct timespec</code>.
+ * <p> The <code>timespec</code> is provided for Linux/C situations because it
+ * may be more convenient than parsing the isoDateTime field. There is more
+ * information in the isoDateTime field as it contains the UTC offset. The UTC
+ * offset may be added to the JSON log file to augment the <code>timespec</code>
+ * in future updates.
+ * </p>
+ * <p>It is, however, useful for checking that the isoDateTime field is parsed
+ * correctly.
+ * <code>record.getInstant().compareTo(record.getTimespec().toInstant())</code>
+ * should return 0.
  * <p>
- * A <code>struct other</code> is obtained by <code>
+ * A <code>struct timespec</code> is obtained in Linux/C by <code>
  * clock_gettime(log_config.clock_id, &amp;ts)</code>.
  * <p>
  * Structure members are:
@@ -45,7 +59,7 @@ package jsonlogreader.model;
  * </ul>
  * @author ehetherington
  */
-public class Timespec {
+public class Timespec implements Comparable<Timespec> {
 	private long sec;	/* tv_sec */
 	private long nsec;	/* tv_nsec */
 	
@@ -67,42 +81,76 @@ public class Timespec {
 	}
 
 	/**
-	 * @return the sec
+	 * Get the <code>sec</code> field.
+	 * @return the <code>sec</code>
 	 */
 	public long getSec() {
 		return sec;
 	}
 
 	/**
-	 * @param sec the sec to set
+	 * Set the <code>sec</code> field.
+	 * @param sec the <code>sec</code> to set
 	 */
 	public void setSec(long sec) {
 		this.sec = sec;
 	}
 
 	/**
-	 * @return the nsec
+	 * Get the <code>nsec</code> field.
+	 * @return the <code>nsec</code>
 	 */
 	public long getNsec() {
 		return nsec;
 	}
 
 	/**
-	 * @param nsec the nsec to set
+	 * Set the <code>nsec</code> field.
+	 * @param nsec the <code>nsec</code> to set
 	 */
 	public void setNsec(long nsec) {
 		this.nsec = nsec;
 	}
 	
 	/**
-	 * Compute the difference between two <code>Timespec</code>.
-	 * @param previous the <code>Timespec</code>
+	 * Get an <code>Instant</code> equivalent to this <code>Timespec</code>. No
+	 * information is lost, as <code>Instant</code> provides nanosecond
+	 * resolution.
+	 * @return that <code>Instant</code>
+	 */
+	@JsonIgnore
+	public Instant toInstant() {
+		return Instant.ofEpochSecond(sec, nsec);
+	}
+
+	/**
+	 * Delegate the comparison to <code>Instant</code>. The two
+	 * <code>Timespec</code>s are converted to <code>Instant</code>s and
+	 * compared.
+	 * @param other  the other <code>Timespec</code> to compare to
+	 * @return the value returned by <code>Instant.compareTo()</code>
+	 */
+	@Override
+	public int compareTo(Timespec other) {
+		return toInstant().compareTo(other.toInstant());
+	}
+	
+	/**
+	 * Compute the difference between two <code>Timespec</code>s. This object
+	 * will be the minuend, the other object will be the subtrahend.
+	 * <p>
+	 * Make sure each <code>Timespec</code> is less than <code>Long.MAX_VALUE /
+	 * 1_000_000_000</code> seconds from the EPOCH. Otherwise the conversion of
+	 * seconds to nanoseconds will overflow. That won't happend for about 292
+	 * years.
+	 * <p>
+	 * @param other the other <code>Timespec</code> to subtract
 	 * @return the difference in nanoseconds
 	 */
-	public long diffNanos(Timespec previous) {
+	public long diffNanos(Timespec other) {
 		long nanos = (sec * 1_000_000_000) + nsec;
-		long previousNanos = (previous.sec * 1_000_000_000) + previous.nsec;
-		return nanos - previousNanos;
+		long otherNanos = (other.sec * 1_000_000_000) + other.nsec;
+		return nanos - otherNanos;
 	}
 	
 	@Override
@@ -123,8 +171,31 @@ public class Timespec {
 		return result;
 	}
 	
+	/**
+	 * Get a String representation of this <code>Timespec</code>.
+	 * @return that <code>String</code>
+	 */
 	@Override
 	public String toString() {
 		return "sec = " + sec + ", nsec = " + nsec;
 	}
+	
+	/**
+	 * Get a <code>Date</code>. A convenience method. Information is lost, as <code>Date</code> has
+	 * only millisecond resolution.
+	 * @return a <code>Date</code> with the nanos field converted to
+	 * milliseconds by truncation (no rounding).
+	 */
+	@JsonIgnore
+	public Date getDate() {
+		return Date.from(toInstant());
+	}
+	
+	
+//	@JsonIgnore
+//	private Date getDateXX() {
+//		long millis = sec * 1000L;
+//		millis += nsec / 1000_000L;
+//		return new Date(millis);
+//	}
 }

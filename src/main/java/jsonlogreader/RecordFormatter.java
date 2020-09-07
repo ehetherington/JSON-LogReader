@@ -131,7 +131,7 @@ public class RecordFormatter {
 		
 		// Date/Time
 		if (dateTimeFormatter != null) {
-			dateTimeFormatter.formatTo(record.getOffsetDateTime(), sb);
+			dateTimeFormatter.formatTo(record.getZonedDateTime(), sb);
 			separator = " ";
 		}
 		
@@ -197,7 +197,8 @@ public class RecordFormatter {
 		/** <code>2020-09-31 07:01:15.123456</code>  */
 		TIME_FMT_FRACT_6("uuuu-MM-dd HH:mm:ss.SSSSSS"),
 		/** <code>2020-09-31 07:01:15.123456789</code>  */
-		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSS"),
+		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSSxxxxx"),
+//		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSS"),
 		/** <code>2020-09-31T07:01:15</code>  */
 		ISOT_FMT_FRACT_0("uuuu-MM-ddTHH:mm:ss"),	// ISO-8601 "T"
 		/** <code>2020-09-31T07:01:15.123</code>  */

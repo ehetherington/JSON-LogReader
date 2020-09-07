@@ -23,6 +23,7 @@
  */
 package jsonlogreader.model;
 
+import java.util.Comparator;
 import java.util.logging.Level;
 
 /**
@@ -106,5 +107,17 @@ public class SDLevel extends Level {
 	 */
 	public static synchronized Level parse(String name) throws IllegalArgumentException {
 		return Level.parse(name);
+	}
+	
+	/**
+	 * A <code>Comparator</code> that may be useful. It compares based on the
+	 * intLevel() values of the <code>Level</code>s..
+	 */
+	static public class IntValueComparator implements Comparator<Level> {
+
+		@Override
+		public int compare(Level o1, Level o2) {
+			return o1.intValue() - o2.intValue();
+		}
 	}
 }

@@ -35,6 +35,12 @@
     </dependency>
 
 	<dependency>
+	  <groupId>com.fasterxml.jackson.datatype</groupId>
+      <artifactId>jackson-datatype-jsr310</artifactId>
+      <version>${jackson.version}</version>
+    </dependency>
+
+	<dependency>
 		<groupId>commons-io</groupId>
 		<artifactId>commons-io</artifactId>
 		<version>2.7</version>
@@ -70,9 +76,29 @@
                     </goals>
                 </execution>
             </executions>
-
         </plugin>
 
+		<!--
+			To make docs:
+			mvn javadoc:javadoc
+			mvn javadoc:jar
+			mvn javadoc:aggregate
+			mvn javadoc:aggregate-jar
+			mvn javadoc:test-javadoc
+			mvn javadoc:test-jar
+			mvn javadoc:test-aggregate
+			mvn javadoc:test-aggregate-jar
+			See: https://maven.apache.org/plugins/maven-javadoc-plugin/usage.html
+		 -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<version>3.2.0</version>
+			<configuration>
+				<show>private</show>
+				<nohelp>false</nohelp>
+			</configuration>
+		</plugin>
 
       </plugins>
   </build>

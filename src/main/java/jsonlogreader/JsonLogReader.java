@@ -23,6 +23,7 @@
  */
 package jsonlogreader;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import jsonlogreader.model.SDLevelJsonDeserializer;
 import jsonlogreader.model.Record;
 import jsonlogreader.model.Log;
@@ -30,14 +31,16 @@ import jsonlogreader.model.SDLevelJsonSerializer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.TimeZone;
 import java.util.logging.Level;
-import jsonlogreader.model.SDLevel;
+import jsonlogreader.model.Timespec;
 
 /**
  * A program to read JSON log file produced by libtinylogger. It certainly is
@@ -110,19 +113,29 @@ public class JsonLogReader {
 				new PrintStream(new FileOutputStream(outputFile), true);
 		}
 
-		// The Records hava a level object - convert them to
-		// java.util.logging.level objects.
-		// serializer and deserializer for the SDLevel objects
+		// The Records hava a level field - convert them to
+		// java.util.logging.Level objects.
+		// serializer and deserializer for the Level objects
+		// deserializer for SDLevel
 		SimpleModule sdLevelModule = new SimpleModule("SDLevelModule");
 		sdLevelModule.addSerializer(Level.class, new SDLevelJsonSerializer());
 		sdLevelModule.addDeserializer(Level.class, new SDLevelJsonDeserializer());
-		
-		// TODO: jackson has support for serialization/deserialization of
-		// date/time strings. Use it instead of the hack in Record.java
 
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(sdLevelModule);
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+		
+		// to disable writing java.util.Date, Calendar as number (timestamp):
+		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		if (!options.getAdjustDateTimezoneOnDeserialize()) {
+			mapper.disable(
+				DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
+		}
+		// to serialize / deserialize OffsetDateTime (and other JSR-8601 stuff)
+		mapper.registerModule(new JavaTimeModule());
+		
+		
+		mapper.setTimeZone(TimeZone. getDefault());
 		
 		// read the file
 		Log log = mapper.readValue(inputStream, Log.class);

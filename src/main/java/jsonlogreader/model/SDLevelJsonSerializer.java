@@ -30,9 +30,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 /**
- * Serialize java.util.logging.Level objects.
+ * Serialize <code>Level</code> objects.
  * This really should be named LevelJsonSerializer, as it it not specific to
- * SDLevel values. It was prefixed with SD to match SDLevelJsonDeserializer.
+ * <code>SDLevel</code> values. It was prefixed with SD to match 
+ * <code>SDLevelJsonDeserializer</code>.
  * 
  * @author ehetherington
  */

@@ -43,6 +43,7 @@ public class LogReaderOptions {
 	
 	private boolean gui = false;
 	private StandardFormat format = StandardFormat.DEBUG_TALL_9;
+	private boolean adjustDateTimeOnDeserialize = true;
 	private boolean follow = false;
 	private boolean verbose = false;
 	private String inputFile = "-";		// default to "-" to signify stdin
@@ -62,6 +63,12 @@ public class LogReaderOptions {
 			.desc(Opt.FORMAT.description)
 			.hasArg()
 			.argName("FORMAT")
+			.required(false)
+			.build());
+		
+		options.addOption(Option.builder(Opt.ADJUST_TZ.shortOpt)
+			.longOpt(Opt.ADJUST_TZ.longOpt)
+			.desc(Opt.ADJUST_TZ.description)
 			.required(false)
 			.build());
 		
@@ -115,6 +122,15 @@ public class LogReaderOptions {
 	}
 	
 	/**
+	 * Get adjustDateTimeOnDeserialize. Date/time objects may be adjusted to the
+	 * context timezone.
+	 * @return true if the adjustment to the context time zone is requested
+	 */
+	public boolean getAdjustDateTimezoneOnDeserialize() {
+		return adjustDateTimeOnDeserialize;
+	}
+	
+	/**
 	 * Get the requested input file.
 	 * @return the input file requested, <code>"-"</code> if none was requested.
 	 */
@@ -164,6 +180,11 @@ public class LogReaderOptions {
 		if (cmdLine.hasOption(Opt.HELP.shortOpt)) {
 			showHelp();
 			System.exit(0);
+		}
+		
+		// adjust date/time on deserializaton to the current context
+		if (cmdLine.hasOption(Opt.ADJUST_TZ.shortOpt)) {
+			adjustDateTimeOnDeserialize = true;
 		}
 		
 		// select the output req
@@ -230,8 +251,10 @@ public class LogReaderOptions {
 			System.out.format("format requested = %s%n", format);
 			System.out.format("follow requested = %b%n" , follow);
 			System.out.format("Verbose messages = %s%n", verbose);
-			System.out.format("input file = %s%n", inputFile);
-			System.out.format("output file = %s%n", outputFile);
+			System.out.format("input file = %s%n",
+				"-".equals(inputFile) ? "<stdin>" : inputFile);
+			System.out.format("output file = %s%n",
+				"-".equals(outputFile) ? "<stdout>" : outputFile);
 		}
 	}
 	
@@ -250,6 +273,7 @@ public class LogReaderOptions {
 	private enum Opt {
 		HELP ("h", "help", "Display this help"),
 		FORMAT("f", "format", "select output format"),
+		ADJUST_TZ("a", "adjust_tz", "adjust timesone on deserialization"),
 		GUI ("g", "gui", "Use an interactive GUI (<FILE> is then optional)"),
 		FOLLOW ("F", "follow", "follow a growing file, as in 'tail -f'"),
 		VERBOSE ("v", "verbose", "print debugging stuff"),

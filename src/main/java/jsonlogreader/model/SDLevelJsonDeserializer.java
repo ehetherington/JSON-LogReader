@@ -30,12 +30,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 /**
- * Deserialize java.util.logging.Level values using the SDLevel to get the
- * additional systemd levels.
+ * Deserialize <code>Level</code> values using <code>SDLevel.parse()</code> to
+ * get the additional <code>systemd</code> levels defined in
+ * <code>SDLevel</code>.
  * @author ehetherington
  */
 public class SDLevelJsonDeserializer extends JsonDeserializer<Level> {
-
     @Override
     public Level deserialize(JsonParser p,
 		DeserializationContext ctxt) throws IOException {
