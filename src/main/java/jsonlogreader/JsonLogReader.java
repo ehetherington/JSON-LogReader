@@ -40,7 +40,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.TimeZone;
 import java.util.logging.Level;
-import jsonlogreader.model.Timespec;
 
 /**
  * A program to read JSON log file produced by libtinylogger. It certainly is
@@ -127,21 +126,26 @@ public class JsonLogReader {
 		
 		// to disable writing java.util.Date, Calendar as number (timestamp):
 		mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-		if (!options.getAdjustDateTimezoneOnDeserialize()) {
+
+		// to adjust input timestamps to the local timezone
+		// the JsonLogReader option defaults to no adjustment (use -a option to
+		// turn it on)
+		if (options.getAdjustDateTimezoneOnDeserialize()) {
+			mapper.setTimeZone(TimeZone.getDefault());
+		} else {
+			// leave the timestamps as generated
 			mapper.disable(
 				DeserializationFeature.ADJUST_DATES_TO_CONTEXT_TIME_ZONE);
 		}
+
 		// to serialize / deserialize OffsetDateTime (and other JSR-8601 stuff)
 		mapper.registerModule(new JavaTimeModule());
-		
-		
-		mapper.setTimeZone(TimeZone. getDefault());
 		
 		// read the file
 		Log log = mapper.readValue(inputStream, Log.class);
 		
-		// print out the records in the DEBG_TALL message format
-		// (log_fmg_debug_tall)
+		// print out the records in the command line selected message format
+		// (log_fmg_debug_tall by default, or set by the -f option)
 		if (log != null) {
 			RecordFormatter formatter =
 				new RecordFormatter(options.getFormat());
