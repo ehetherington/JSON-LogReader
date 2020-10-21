@@ -84,8 +84,15 @@ public class VerifyBeehive {
 	private static final int N_LOOPS		= 1000;
 
 	/**
-	 * @param args the command line arguments
-	 * @throws java.io.IOException when something bad happens
+	 * Verify several aspects of a log file produced by the libtinylogger
+	 * beehive example program.
+	 * <p>
+	 * The required command line argument is the name of the file to verify.
+	 * </p>
+	 * 
+	 * @param args the pathname of the file to analyze.
+	 * @throws java.io.IOException if an IOException occurs reading the log
+	 * file.
 	 */
 	public static void main(String[] args) throws IOException {
 		if (DEBUG)  args = new String[] {"beehive.json"};
