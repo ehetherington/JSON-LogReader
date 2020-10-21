@@ -33,7 +33,7 @@ import java.util.Date;
  * may be more convenient than parsing the isoDateTime field. There is more
  * information in the isoDateTime field as it contains the UTC offset. The UTC
  * offset may be added to the JSON log file to augment the <code>timespec</code>
- * in future updates.
+ * in future libtinylogger updates.
  * </p>
  * <p>It is, however, useful for checking that the isoDateTime field is parsed
  * correctly.
@@ -190,12 +190,4 @@ public class Timespec implements Comparable<Timespec> {
 	public Date getDate() {
 		return Date.from(toInstant());
 	}
-	
-	
-//	@JsonIgnore
-//	private Date getDateXX() {
-//		long millis = sec * 1000L;
-//		millis += nsec / 1000_000L;
-//		return new Date(millis);
-//	}
 }
