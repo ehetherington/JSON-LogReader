@@ -80,3 +80,14 @@ With no FILE, or when FILE is -, read standard input.
  -v,--verbose           print debugging stuff
 ```
 The `-gui` and `-follow` options are not yet implemented.
+
+## FasterXML/Jackson treatment of jsr310 date objects
+
+TimestampDemo.java was added to help understanding the choices in deserializing the timestamps.
+
+There is a short summary in the code, but the javadoc version is easier to read.
+
+```
+$ java -cp target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.TimestampDemo
+```
+
