@@ -196,9 +196,13 @@ public class RecordFormatter {
 		TIME_FMT_FRACT_3("uuuu-MM-dd HH:mm:ss.SSS"),
 		/** <code>2020-09-31 07:01:15.123456</code>  */
 		TIME_FMT_FRACT_6("uuuu-MM-dd HH:mm:ss.SSSSSS"),
+
 		/** <code>2020-09-31 07:01:15.123456789</code>  */
-		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSSxxxxx"),
-//		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSS"),
+		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSS"),
+
+		/** add UTC offset <code>2020-09-31 07:01:15.123456789-04:00</code>  */
+		TIME_FMT_FRACT_9_OFFSET("uuuu-MM-dd HH:mm:ss.SSSSSSSSSxxxxx"),
+
 		/** <code>2020-09-31T07:01:15</code>  */
 		ISOT_FMT_FRACT_0("uuuu-MM-ddTHH:mm:ss"),	// ISO-8601 "T"
 		/** <code>2020-09-31T07:01:15.123</code>  */
@@ -261,6 +265,10 @@ public class RecordFormatter {
 		DEBUG_TALL_9(DateTimeFormat.TIME_FMT_FRACT_9,
 			true, true, true,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
+		/** Format for TimestampDemo. */
+		TIMESTAMP_DEMO(DateTimeFormat.TIME_FMT_FRACT_9_OFFSET,
+			false, false, false,	// level, threadId, threadName
+			false, false, false),	// file, function, line),
 		;
 
 		final DateTimeFormat dateTimeFormat;
