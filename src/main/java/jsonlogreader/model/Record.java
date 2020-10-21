@@ -31,7 +31,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.logging.Level;
-import javax.swing.text.DateFormatter;
 
 /**
  * The model for the log messages.
