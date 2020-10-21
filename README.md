@@ -87,6 +87,8 @@ TimestampDemo.java was added to help understanding the choices in deserializing 
 
 There is a short summary in the code, but the javadoc version is easier to read.
 
+To run the demo:
+
 ```
 $ java -cp target/JSON-LogReader-0.5.0-SNAPSHOT-jar-with-dependencies.jar jsonlogreader.TimestampDemo
 ```
