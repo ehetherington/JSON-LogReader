@@ -43,7 +43,7 @@ public class LogReaderOptions {
 	
 	private boolean gui = false;
 	private StandardFormat format = StandardFormat.DEBUG_TALL_9;
-	private boolean adjustDateTimeOnDeserialize = true;
+	private boolean adjustDateTimeOnDeserialize = false;
 	private boolean follow = false;
 	private boolean verbose = false;
 	private String inputFile = "-";		// default to "-" to signify stdin
@@ -249,6 +249,7 @@ public class LogReaderOptions {
 		if (verbose) {
 			System.out.format("gui requested = %b%n" , gui);
 			System.out.format("format requested = %s%n", format);
+			System.out.format("adjustDateTimeOnDeserialize = %b%n", adjustDateTimeOnDeserialize);
 			System.out.format("follow requested = %b%n" , follow);
 			System.out.format("Verbose messages = %s%n", verbose);
 			System.out.format("input file = %s%n",
