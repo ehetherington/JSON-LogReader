@@ -211,6 +211,7 @@ public class RecordFormatter {
 		ISOT_FMT_FRACT_6("uuuu-MM-ddTHH:mm:ss.SSSSSS"),
 		/** <code>2020-09-31T07:01:15.123456789</code>  */
 		ISOT_FMT_FRACT_9("uuuu-MM-ddTHH:mm:ss.SSSSSSSSS"),
+		/** add UTC offset <code>2020-09-31 07:01:15.123456789-04:00</code>  */
 		TIME_FMT_FRACT_NANO("uuuu-MM-dd HH:mm:ss.nnnnnnnnn"),
 		;
 
