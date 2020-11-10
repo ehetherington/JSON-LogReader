@@ -23,6 +23,7 @@
  */
 package jsonlogreader.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,15 +33,17 @@ import java.util.List;
  * 
  * @author ehetherington
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Log {
+	private LogHeader logHeader = null;
 	private List<Record> records = new ArrayList<>();
-	
-	/**
-	 * Add a record.
-	 * @param record the record to add
-	 */
-	public void add(Record record) {
-		records.add(record);
+
+	public void setLogHeader(LogHeader logHeader) {
+		this.logHeader = logHeader;
+	}
+
+	public LogHeader getLogHeader() {
+		return logHeader;
 	}
 
 	/**
@@ -58,5 +61,13 @@ public class Log {
 	public void setRecords(List<Record> records) {
 		this.records = records;
 	}
-	
+
+	/**
+	 * Add a record.
+	 * @param record the record to add
+	 */
+	public void add(Record record) {
+		records.add(record);
+	}
+
 }
