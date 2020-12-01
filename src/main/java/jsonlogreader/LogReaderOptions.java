@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,14 +35,15 @@ import org.apache.commons.cli.ParseException;
 
 /**
  * Parse the command line options.
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class LogReaderOptions {
 	private final Options options = new Options();
 	private CommandLine cmdLine = null;
 	
 	private boolean gui = false;
-	private StandardFormat format = StandardFormat.DEBUG_TALL_9;
+//	private StandardFormat format = StandardFormat.DEBUG_TALL_9;	// verbose!
+	private StandardFormat format = StandardFormat.STANDARD;
 	private boolean adjustDateTimeOnDeserialize = false;
 	private boolean follow = false;
 	private boolean verbose = false;
