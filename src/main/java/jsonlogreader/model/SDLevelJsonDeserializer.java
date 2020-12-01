@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,7 +33,7 @@ import java.util.logging.Level;
  * Deserialize <code>Level</code> values using <code>SDLevel.parse()</code> to
  * get the additional <code>systemd</code> levels defined in
  * <code>SDLevel</code>.
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class SDLevelJsonDeserializer extends JsonDeserializer<Level> {
     @Override

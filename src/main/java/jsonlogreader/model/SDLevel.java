@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,7 +30,7 @@ import java.util.logging.Level;
  * SD_Level adds Linux systemd logging levels to Level.
  * 
  * 
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class SDLevel extends Level {
 
