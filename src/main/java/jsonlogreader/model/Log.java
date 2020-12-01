@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -31,19 +31,27 @@ import java.util.List;
  * The tinylogger json log file is a <code>Log</code>, which is a list of <code>
  * Record</code>.
  * 
- * @author ehetherington
+ * @author Edward Hetherington
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Log {
-	private LogHeader logHeader = null;
+	private Header header = null;
 	private List<Record> records = new ArrayList<>();
 
-	public void setLogHeader(LogHeader logHeader) {
-		this.logHeader = logHeader;
+	/**
+	 * Retrieve the header
+	 * @return the header
+	 */
+	public Header getHeader() {
+		return header;
 	}
 
-	public LogHeader getLogHeader() {
-		return logHeader;
+	/**
+	 * Set the header
+	 * @param header the header to set
+	 */
+	public void setHeader(Header header) {
+		this.header = header;
 	}
 
 	/**
@@ -69,5 +77,4 @@ public class Log {
 	public void add(Record record) {
 		records.add(record);
 	}
-
 }
