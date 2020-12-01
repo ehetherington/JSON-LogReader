@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -35,13 +35,14 @@ import java.time.ZonedDateTime;
  * <p>A timestamp created when the LOG_CHANNEL is opened</p>
  * <li>     <code>hostname</code>
  * <p>The hostname from /proc/sys/kernel/hostname</p>
+ * 
  * <li>     <code>notes</code>
  * <p>Text set with <code>log_set_json_notes()</code> <i>before</i> the channel
  * was opened.</p>
  * </ul>
- * @author ehetherington
+ * @author Edward Hetherington
  */
-public class LogHeader {
+public class Header {
 	private ZonedDateTime startDate;
 	private String hostname = null;
 	private String notes = null;
@@ -93,6 +94,7 @@ public class LogHeader {
 	}
 	
 	/**
+	 * Convenience/development method.
 	 * A simple format:
 	 * <br>label=value pairs separated by newline with no trailing newline.
 	 * <pre>
