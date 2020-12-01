@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -97,7 +97,7 @@ import java.util.logging.Level;
  * 
  * </ul>
  * 
- * @author ehetherington
+ * @author Edward Hetherington
  */
 @JsonPropertyOrder({ "isoDateTime" })	// apparently @JsonProperty() goes last
 public class Record {
@@ -111,10 +111,7 @@ public class Record {
 	private int line;
 	private long threadId;
 	private String threadName;
-	String message;
-	
-	public Record() {
-	}
+	private String message;
 	
 	/**
 	 * Get the <code>ZonedDateTime</code> representing the isoDateTime from the
