@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package jsonlogreader;
+package jsonlogreader.examples;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +37,7 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
+import jsonlogreader.RecordFormatter;
 import jsonlogreader.model.Log;
 import jsonlogreader.model.Record;
 import jsonlogreader.model.TinyLoggerMapper;
@@ -66,7 +67,7 @@ import jsonlogreader.model.TinyLoggerMapper;
  *	mapper.setTimeZone(TimeZone.getDefault());
  *	Log log = mapper.readValue(sample, Log.class);
  * </pre>
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class TimeZoneDemo {
 	

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -72,7 +72,7 @@ import jsonlogreader.model.TinyLoggerMapper;
  * <li>total number of threads
  * <p>Verify that there are 1 main + 250 worker threads.</p>
  * </ul>
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class VerifyBeehive {
 	private static final boolean DEBUG = false;
