@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -23,12 +23,12 @@
  */
 package jsonlogreader;
 
-import jsonlogreader.model.Record;
 import java.time.format.DateTimeFormatter;
+import jsonlogreader.model.Record;
 
 /**
  * Replicate all libtinylogger message formats except log_fmt_systemd.
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class RecordFormatter {
 	private DateTimeFormatter dateTimeFormatter;
@@ -38,6 +38,8 @@ public class RecordFormatter {
 	private boolean showSourceFile = false;
 	private boolean showSourceFunction = false;
 	private boolean showSourceLine = false;
+	private boolean useNativeLineSeparator = true;
+	final private String lineSeparator = System.lineSeparator();
 	
 	/**
 	 * Create a record formatter that replicates <code>log_fmt_standard</code>.
@@ -54,7 +56,7 @@ public class RecordFormatter {
 	 * @param format the format to replicate
 	 */
 	public RecordFormatter(StandardFormat format) {
-		this.dateTimeFormatter =
+		this.dateTimeFormatter = format.dateTimeFormat == null ? null :
 			DateTimeFormatter.ofPattern(format.dateTimeFormat.toString());
 		this.showLevel = format.showLevel;
 		this.showThreadId = format.showThreadId;
@@ -62,6 +64,15 @@ public class RecordFormatter {
 		this.showSourceFile = format.showSourceFile;
 		this.showSourceFunction = format.showSourceFunction;
 		this.showSourceLine = format.showSourceLine;
+	}
+	
+	/**
+	 * Use the native line separator. Defaults to true;
+	 * @param yesNo false leaves the message as written. true converts newlines
+	 * to the native value.
+	 */
+	public void setUseNativeLineSeparator(boolean yesNo) {
+		useNativeLineSeparator = yesNo;
 	}
 	
 	/**
@@ -121,6 +132,17 @@ public class RecordFormatter {
 	}
 	
 	/**
+	 * Records are generated on a Linux machine and always have
+	 * <code>'\n'</code> line separators. Replace them with "\r\n" on windows.
+	 */
+	private String toNative(String text) {
+		if (("\n".equals(lineSeparator)) ||
+			!useNativeLineSeparator) return text;
+		return text == null ? null :
+			text.replaceAll("\n", lineSeparator);
+	}
+	
+	/**
 	 * Format the record in the configured format.
 	 * @param record the record to format
 	 * @return the formatted record
@@ -171,8 +193,9 @@ public class RecordFormatter {
 			separator = " ";
 		}
 		
-		// and finally, the actual user message
-		sb.append(separator).append(record.getMessage());
+		// message is generated on a Linux machine and always has '\n'
+		// replace with "\r\n" on windows
+		sb.append(separator).append(toNative(record.getMessage()));
 
 		return sb.toString();
 	}
@@ -299,4 +322,3 @@ public class RecordFormatter {
         }
 	}
 }
-		
