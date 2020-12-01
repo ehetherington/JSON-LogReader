@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -57,7 +57,7 @@ import java.util.Date;
  * values are supplied to GNU C Library functions, the value in this field must
  * be in the same range.</p>
  * </ul>
- * @author ehetherington
+ * @author Edward Hetherington
  */
 public class Timespec implements Comparable<Timespec> {
 	private long sec;	/* tv_sec */

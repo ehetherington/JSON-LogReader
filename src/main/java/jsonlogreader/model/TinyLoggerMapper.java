@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2020 ehetherington.
+ * Copyright 2020 Edward Hetherington.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -33,6 +33,7 @@ import java.util.logging.Level;
  * Convenience class to register the modules necessary to serialize and
  * de-serialize <code>SDLevel</code> and JavaTime (JSR-310) classes
  * (ZonedDateTime in particular).
+ * @author Edward Hetherington
  */
 public class TinyLoggerMapper extends ObjectMapper {
 
