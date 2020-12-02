@@ -27,7 +27,16 @@ import java.time.format.DateTimeFormatter;
 import jsonlogreader.model.Record;
 
 /**
- * Replicate all libtinylogger message formats except log_fmt_systemd.
+ * Format a log Record.
+ * <p>There are predefined <code>StandardFormat</code>s that
+ * replicate all libtinylogger message formats except log_fmt_systemd.</p>
+ * <p>Or each of the elements of the record may be chosen individually via the
+ * setShowXXX methods.</p>
+ * <p>The date/time format may be set any
+ * <code>java.time.format.DateTimeFormatter</code>, or one created from one of
+ * the pre-defined libtinylogger ones (RecordFormatter.DateTimeFormat).
+ * </p>
+ * 
  * @author Edward Hetherington
  */
 public class RecordFormatter {
@@ -56,6 +65,14 @@ public class RecordFormatter {
 	 * @param format the format to replicate
 	 */
 	public RecordFormatter(StandardFormat format) {
+		setFormat(format);
+	}
+	
+	/**
+	 * Set one of the pre-defined formats.
+	 * @param format the format to use
+	 */
+	final public void setFormat(StandardFormat format) {
 		this.dateTimeFormatter = format.dateTimeFormat == null ? null :
 			DateTimeFormatter.ofPattern(format.dateTimeFormat.toString());
 		this.showLevel = format.showLevel;
@@ -77,6 +94,8 @@ public class RecordFormatter {
 	
 	/**
 	 * Use the specified <code>DateTimeFormatter</code>.
+	 * <code>dateTImeFormatter</code> may be null. In that case, no timestamp
+	 * will be printed.
 	 * @param dateTimeFormatter the formatter to use
 	 */
 	public void setDateTimeFormatter(DateTimeFormatter dateTimeFormatter) {
@@ -219,12 +238,13 @@ public class RecordFormatter {
 		TIME_FMT_FRACT_3("uuuu-MM-dd HH:mm:ss.SSS"),
 		/** <code>2020-09-31 07:01:15.123456</code>  */
 		TIME_FMT_FRACT_6("uuuu-MM-dd HH:mm:ss.SSSSSS"),
-
 		/** <code>2020-09-31 07:01:15.123456789</code>  */
 		TIME_FMT_FRACT_9("uuuu-MM-dd HH:mm:ss.SSSSSSSSS"),
-
+		
 		/** add UTC offset <code>2020-09-31 07:01:15.123456789-04:00</code>  */
 		TIME_FMT_FRACT_9_OFFSET("uuuu-MM-dd HH:mm:ss.SSSSSSSSSxxxxx"),
+		/** add UTC offset <code>2020-09-31 07:01:15.123456789-04:00</code>  */
+		TIME_FMT_FRACT_NANO("uuuu-MM-dd HH:mm:ss.nnnnnnnnn"),
 
 		/** <code>2020-09-31T07:01:15</code>  */
 		ISOT_FMT_FRACT_0("uuuu-MM-ddTHH:mm:ss"),	// ISO-8601 "T"
@@ -234,8 +254,6 @@ public class RecordFormatter {
 		ISOT_FMT_FRACT_6("uuuu-MM-ddTHH:mm:ss.SSSSSS"),
 		/** <code>2020-09-31T07:01:15.123456789</code>  */
 		ISOT_FMT_FRACT_9("uuuu-MM-ddTHH:mm:ss.SSSSSSSSS"),
-		/** add UTC offset <code>2020-09-31 07:01:15.123456789-04:00</code>  */
-		TIME_FMT_FRACT_NANO("uuuu-MM-dd HH:mm:ss.nnnnnnnnn"),
 		;
 
         final String formatString;
@@ -261,35 +279,58 @@ public class RecordFormatter {
 	 */
 	public enum StandardFormat {
 
-		/** Replicate <code>log_fmt_basic</code>. */
+		/** Replicate <code>log_fmt_basic</code>. <br>
+		 * <code>the actual message</code>
+		 */
 		BASIC(null,					// no timestamp
 			false, false, false,	// level, threadId, threadName
 			false, false, false),	// file, function, line),
-		/** Replicate <code>log_fmt_standard</code>. */
+		
+		/** Replicate <code>log_fmt_standard</code>. <br>
+		 * <code>2020-11-16 15:08:02 INFO the actual message</code>
+		 */
 		STANDARD(DateTimeFormat.TIME_FMT_FRACT_0,
 			true, false, false,		// level, threadId, threadName
 			false, false, false),	// file, function, line),
-		/** Replicate <code>log_fmt_debug</code>. */
+		
+		/** Replicate <code>log_fmt_debug</code>. <br>
+		 * <code>2020-11-16 15:08:02.692 INFO file-reader.c:main:26 the actual message</code>
+		 */
 		DEBUG(DateTimeFormat.TIME_FMT_FRACT_3,
 			true, false, false,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
-		/** Replicate <code>log_fmt_debug_tid</code>. */
+		
+		/** Replicate <code>log_fmt_debug_tid</code>. <br>
+		 * <code>2020-11-16 15:08:02.692 INFO 55228 file-reader.c:main:26 the actual message</code>
+		 */
 		DEBUG_TID(DateTimeFormat.TIME_FMT_FRACT_3,
 			true, true, false,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
-		/** Replicate <code>log_fmt_log_fmt_tname</code>. */
+		
+		/** Replicate <code>log_fmt_log_fmt_tname</code>. <br>
+		 * <code>2020-11-16 15:08:02.692 INFO file-reader file-reader.c:main:26 the actual message</code>
+		 */
 		DEBUG_TNAME(DateTimeFormat.TIME_FMT_FRACT_3,
 			true, false, true,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
-		/** Replicate <code>log_fmt_log_fmt_tall</code>. */
+		
+		/** Replicate <code>log_fmt_log_fmt_tall</code>. <br>
+		 * <code>2020-11-16 15:08:02.692 INFO 55228:file-reader file-reader.c:main:26 the actual message</code>
+		 */
 		DEBUG_TALL(DateTimeFormat.TIME_FMT_FRACT_3,
 			true, true, true,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
-		/** Replicate <code>log_fmt_debug_tall</code> with nanoseconds. */
+		
+		/** Replicate <code>log_fmt_debug_tall</code> with nanoseconds. <br>
+		 * <code>2020-11-16 15:08:02.692449318 INFO 55228:file-reader file-reader.c:main:26 the actual message</code>
+		 */
 		DEBUG_TALL_9(DateTimeFormat.TIME_FMT_FRACT_9,
 			true, true, true,		// level, threadId, threadName
 			true, true, true),		// file, function, line),
-		/** Format for TimestampDemo. */
+		
+		/** Format for TimestampDemo. <br>
+		 * <code>2020-11-16 15:08:02.692449318-05:00 the actual message</code>
+		 */
 		TIMESTAMP_DEMO(DateTimeFormat.TIME_FMT_FRACT_9_OFFSET,
 			false, false, false,	// level, threadId, threadName
 			false, false, false),	// file, function, line),
