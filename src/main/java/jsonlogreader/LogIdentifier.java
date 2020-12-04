@@ -111,13 +111,15 @@ public class LogIdentifier {
 	 * @return the LogType determined
 	 */
 	static public LogType identifyLog(File file) {
-		FileInputStream fis = null;
+		if (!file.exists()) return LogType.UNKNOWN;
+		FileInputStream fis;
 		try {
 			fis = new FileInputStream(file);
 		} catch (FileNotFoundException e) {
+			return LogType.UNKNOWN;
 		}
 		
-		return fis == null ? LogType.UNKNOWN : identifyLog(fis);
+		return identifyLog(fis);
 	}
 	
 	/**
@@ -132,15 +134,13 @@ public class LogIdentifier {
 	static LogType identifyLog(InputStream inputStream) {
 		TinyLoggerMapper mapper = new TinyLoggerMapper();
 		JsonFactory factory = mapper.getFactory();
-		JsonToken[] tokens = null;
+		JsonToken[] tokens = new JsonToken[Signature.SIG_LENGTH];
 		try (JsonParser parser = factory.createParser(inputStream)) {
-			tokens = new JsonToken[Signature.SIG_LENGTH];
 			for (int n = 0; n < Signature.SIG_LENGTH; n++) {
 				tokens[n] = parser.nextToken();
 			}
 		} catch (IOException ex) {
-			System.err.format("identifyLog(): %s%n", ex.getMessage());
-			System.exit(1);
+			return LogType.UNKNOWN;
 		}
 		LogType logType = signatures.get(new Signature("unknown", tokens));
 		return logType != null ? logType : LogType.UNKNOWN;
